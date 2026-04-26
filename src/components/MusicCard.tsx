@@ -41,7 +41,7 @@ export default function MusicCard() {
     useEffect(() => {
         setMounted(true);
         // Initialize audio
-        audioRef.current = new Audio("/sunflower.mp3");
+        audioRef.current = new Audio("/Portfolio/sunflower.mp3");
         audioRef.current.loop = true;
         audioRef.current.volume = 0.5;
     }, []);

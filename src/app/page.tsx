@@ -110,7 +110,7 @@ export default function Home() {
                   tech="HTML / CSS / JS"
                   index={0}
                   link="https://labhouse1.netlify.app/" // Replace with your actual URL
-                  image="/project.png" // Replace with your image path (e.g., "/my-project.png")
+                  image="/Portfolio/project.png" // Replace with your image path (e.g., "/my-project.png")
                 />
                 <PendulumCard
                   title="Habit Tracker"
@@ -118,7 +118,7 @@ export default function Home() {
                   tech="HTML / CSS / JS"
                   link="https://habitlog.netlify.app/"
                   index={1}
-                  image="/habit.png"
+                  image="/Portfolio/habit.png"
                 />
                 <PendulumCard
                   title="Serene Reminder"
@@ -126,7 +126,7 @@ export default function Home() {
                   tech="React / Tailwind CSS / Supabase"
                   index={2}
                   link="https://habit-tracker-puce-eight.vercel.app/"
-                  image="/serene.png"
+                  image="/Portfolio/Serene.png"
                 />
                 <PendulumCard
                   title="Delta Engine"

@@ -90,7 +90,7 @@ const HeadphonesPlayer = () => {
 
     useEffect(() => {
         setMounted(true);
-        audioRef.current = new Audio("/sunflower.mp3");
+        audioRef.current = new Audio("/Portfolio/sunflower.mp3");
         audioRef.current.loop = true;
         audioRef.current.volume = 0.4;
     }, []);
@@ -192,7 +192,7 @@ const LaptopScreen = () => {
                         {/* Avatar */}
                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[#00F5FF] to-[#FF003C] border-[3px] border-zinc-700 shadow-lg shrink-0 flex items-center justify-center p-0.5">
                             <div className="w-full h-full rounded-full bg-zinc-900 border border-zinc-800 overflow-hidden relative">
-                                <img src="/Me.jpg" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
+                                <img src="/Portfolio/Me.jpg" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
                             </div>
                         </div>
                         {/* Details */}
