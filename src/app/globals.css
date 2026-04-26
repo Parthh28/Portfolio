@@ -1,0 +1,446 @@
+@import "tailwindcss";
+
+:root {
+  --background: #121212;
+  /* Deep Charcoal */
+  --foreground: #e0e0e0;
+
+  /* Midnight Urban Palette */
+  --spider-red: #4a0404;
+  /* Dark Oxblood */
+  --spider-blue: #1c2541;
+  /* Steel Blue */
+  --spider-black: #0b0c10;
+  /* Void Black */
+  --spider-white: #e0e0e0;
+  /* Muted Silver */
+  /* Spider-Verse Palette */
+  --spider-verse-red: #E63946;
+  /* Electric Crimson */
+  --spider-verse-cyan: #00F5FF;
+  /* Neon Cyan */
+  --graffiti-yellow: #F9C74F;
+  /* Sunflower Yellow */
+  --deep-base: #0D0D0D;
+  /* Rich Black */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-spider-red: var(--spider-red);
+  --color-spider-blue: var(--spider-blue);
+  --color-spider-black: var(--spider-black);
+  --color-spider-white: var(--spider-white);
+  --color-spider-gunmetal: var(--spider-gunmetal);
+  --color-neon-cyan: var(--neon-cyan);
+
+  --color-spider-verse-red: var(--spider-verse-red);
+  --color-spider-verse-cyan: var(--spider-verse-cyan);
+  --color-graffiti-yellow: var(--graffiti-yellow);
+  --color-deep-base: var(--deep-base);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --font-serif: var(--font-playfair);
+
+  --color-newsprint: #E8E6E1;
+
+  --drop-shadow-neon: 0 0 10px rgba(69, 162, 158, 0.5);
+  --drop-shadow-paper: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* Half-tone Pattern */
+.bg-halftone {
+  background-image: radial-gradient(#000 10%, transparent 11%),
+    radial-gradient(#000 10%, transparent 11%);
+  background-size: 10px 10px;
+  background-position: 0 0, 5px 5px;
+  opacity: 0.05;
+}
+
+
+html,
+body {
+  height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Cinematic Overlays */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  /* Vignette */
+  pointer-events: none;
+  z-index: 998;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: overlay;
+}
+
+/* Suit Weave (Hex Mesh) */
+.bg-hex-mesh {
+  background-image:
+    radial-gradient(var(--spider-gunmetal) 15%, transparent 16%),
+    radial-gradient(var(--spider-gunmetal) 15%, transparent 16%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.05;
+}
+
+/* Ultra-Dark Glassmorphism */
+.glass-panel {
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.text-stark {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  /* Assuming Montserrat is loaded or falls back */
+}
+
+/* Glitch Animation */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.animate-glitch {
+  animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+  animation-iteration-count: 3;
+  /* Flicker 3 times then stop */
+}
+
+/* Phase 4: Street Level Utilities */
+
+/* Brick Wall Pattern */
+.bg-brick {
+  background-color: #111;
+  background-image:
+    linear-gradient(335deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px),
+    linear-gradient(335deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(0, 0, 0, 0.3) 23px, transparent 23px);
+  background-size: 58px 58px;
+  background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+}
+
+/* Focus Ripple (Spider-Sense) */
+.group:focus-within .focus-ripple {
+  animation: ripple 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  border-color: var(--spider-red);
+  box-shadow: 0 0 15px var(--spider-red);
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 4, 4, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(74, 4, 4, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 4, 4, 0);
+  }
+}
+
+/* Fog/Steam Animation */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: translateY(-100px) scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-fog {
+  animation: floatUp 6s ease-in-out infinite;
+}
+
+/* Distressed Text Effect */
+.distressed-text {
+  /* filter: url('#noiseFilter'); If we had an SVG filter, or just use shadows */
+  text-shadow: 2px 2px 0px rgba(74, 4, 4, 0.5), -1px -1px 0 rgba(28, 37, 65, 0.3);
+  letter-spacing: 0.1em;
+}
+
+.clip-path-polygon {
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+}
+
+/* --- PHASE 5: ABOUT ME (Spider-Verse) --- */
+
+/* Carbon Fiber Pattern */
+.bg-carbon {
+  background-color: #131313;
+  background-image:
+    linear-gradient(27deg, #151515 5px, transparent 5px),
+    linear-gradient(207deg, #151515 5px, transparent 5px),
+    linear-gradient(58deg, #1a1a1a 10px, transparent 10px),
+    linear-gradient(238deg, #1a1a1a 10px, transparent 10px),
+    linear-gradient(29px, #222 5px, transparent 5px),
+    linear-gradient(209deg, #222 5px, transparent 5px);
+  background-size: 20px 20px;
+}
+
+/* CMYK / Chromatic Aberration Text */
+.text-chromatic {
+  text-shadow:
+    -2px 0 var(--spider-verse-cyan),
+    2px 0 var(--spider-verse-red);
+}
+
+/* Vinyl Spin Animation */
+@keyframes spin-vinyl {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-vinyl 4s linear infinite;
+}
+
+/* Sound Wave Bar Animation */
+@keyframes sound-wave {
+
+  0%,
+  100% {
+    height: 20%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+.animate-wave {
+  animation: sound-wave 1s ease-in-out infinite;
+}
+
+/* --- PHASE 6: SPIDER-VERSE GLITCH EFFECT --- */
+
+/* Glitch Keyframes */
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(20% 0 80% 0);
+  }
+
+  20% {
+    clip-path: inset(60% 0 1% 0);
+  }
+
+  40% {
+    clip-path: inset(40% 0 50% 0);
+  }
+
+  60% {
+    clip-path: inset(80% 0 5% 0);
+  }
+
+  80% {
+    clip-path: inset(10% 0 70% 0);
+  }
+
+  100% {
+    clip-path: inset(30% 0 20% 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(10% 0 60% 0);
+  }
+
+  20% {
+    clip-path: inset(30% 0 20% 0);
+  }
+
+  40% {
+    clip-path: inset(10% 0 80% 0);
+  }
+
+  60% {
+    clip-path: inset(70% 0 10% 0);
+  }
+
+  80% {
+    clip-path: inset(50% 0 30% 0);
+  }
+
+  100% {
+    clip-path: inset(20% 0 60% 0);
+  }
+}
+
+/* Glitch Container (for Images) */
+.glitch-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-item:hover::before,
+.glitch-item:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  /* This won't work easily for IMG tags, need a different approach for images. */
+  /* For images, we usually need to duplicate the image. */
+}
+
+/* Better approach for images: Duplicate the image element in React or use a container with background-image */
+
+/* Text Glitch */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  color: var(--spider-white);
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--spider-black);
+  /* Matches card bg */
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.glitch-text:hover::before {
+  opacity: 1;
+  text-shadow: -2px 0 var(--spider-verse-red);
+  animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+  /* clip-path will be handled by animation */
+  transform: translate(-2px, 0);
+  z-index: -1;
+}
+
+.glitch-text:hover::after {
+  opacity: 1;
+  text-shadow: 2px 0 var(--spider-verse-cyan);
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+  transform: translate(2px, 0);
+  z-index: -2;
+}
+
+/* Image Glitch Wrapper */
+.glitch-img-container {
+  position: relative;
+  /* Ensure overflow is hidden to contain the glitch */
+  overflow: hidden;
+}
+
+.glitch-img-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  /* Default is hidden/transparent for glitch layers */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Base Image (First Layer) */
+.glitch-img-layer:nth-child(1) {
+  opacity: 1 !important;
+  /* Always visible */
+  z-index: 1;
+}
+
+/* Red Channel Glitch */
+.group:hover .glitch-img-layer:nth-child(2) {
+  opacity: 0.8;
+  /* Use mix-blend-mode to overlay color without fully obscuring */
+  mix-blend-mode: screen;
+  /* Tint the image red */
+  background-color: var(--spider-verse-red);
+  background-blend-mode: multiply;
+  z-index: 2;
+  animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+  transform: translate(-5px, 0);
+  /* Clip path handled by animation if defined there, or here */
+}
+
+/* Cyan Channel Glitch */
+.group:hover .glitch-img-layer:nth-child(3) {
+  opacity: 0.8;
+  mix-blend-mode: screen;
+  /* Tint the image cyan */
+  background-color: var(--spider-verse-cyan);
+  background-blend-mode: multiply;
+  z-index: 3;
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+  transform: translate(5px, 0);
+}
