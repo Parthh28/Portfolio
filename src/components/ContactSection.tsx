@@ -83,7 +83,8 @@ export default function ContactSection() {
                 message: formData.projectType
             },
             publicKey
-        ).then(() => {
+        ).then((response) => {
+            console.log("EmailJS Success:", response.status, response.text);
             startAnimation();
         }, (error) => {
             console.error("EmailJS Error:", error);
