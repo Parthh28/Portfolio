@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Github, Linkedin, Mail, X, Instagram } from "lucide-react";
 
 const SOCIALS = [
-    { id: 1, icon: Github, label: "GitHub", link: "https://github.com/Parthh28m", color: "#6e5494" },
+    { id: 1, icon: Github, label: "GitHub", link: "https://github.com/Parthh28", color: "#6e5494" },
     { id: 2, icon: Linkedin, label: "LinkedIn", link: "https://www.linkedin.com/in/parth-mehta-31184337b/", color: "#0077b5" },
     { id: 3, icon: X, label: "X", link: "https://twitter.com", color: "#1da1f2" },
     { id: 4, icon: Instagram, label: "Instagram", link: "https://www.instagram.com/parthhh__.28/", color: "#E1306C" },
