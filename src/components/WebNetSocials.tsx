@@ -129,14 +129,15 @@ export default function WebNetSocials() {
                             const cy = 500 + Math.sin(midAngle) * ((r1 + r2) / 2 * sagFactor);
                             
                             // Randomly break individual segments
+                            // Randomly break individual segments
                             const skipSegment = Math.sin(i * 17.1 + currentJ * 9.3) > 0.85;
 
-                            if (j === 0 && !skipSegment) d += `M ${x1} ${y1} `;
-                            else if (j < 24 && !skipSegment) {
-                                // If previous was skipped or this is the start of a new drawn section
-                                if (!d.endsWith(" ")) { d += ` M ${x1} ${y1} `; }
+                            if (!skipSegment) {
+                                if (d === "" || d.endsWith(" ")) {
+                                    d += `M ${x1} ${y1} `;
+                                }
                                 d += `Q ${cx} ${cy} ${x2} ${y2} `;
-                            } else if (skipSegment) {
+                            } else if (d !== "" && !d.endsWith(" ")) {
                                 d += " "; // mark break
                             }
                         }

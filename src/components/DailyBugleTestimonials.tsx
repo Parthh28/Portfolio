@@ -62,9 +62,15 @@ export default function DailyBugleTestimonials() {
                             {/* Newspaper Card */}
                             <div className="relative bg-[#e0e0e0] text-black p-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] rotate-1 hover:rotate-0 transition-transform duration-500">
                                 {/* Paper Texture Overlay */}
-                                <div className="absolute inset-0 bg-[#d4d4d4] opacity-20 pointer-events-none mix-blend-multiply"
-                                    style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}
-                                />
+                                <div className="absolute inset-0 bg-[#d4d4d4] opacity-20 pointer-events-none mix-blend-multiply overflow-hidden">
+                                    <svg className="w-full h-full opacity-30">
+                                        <filter id="newspaper-grain">
+                                            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+                                            <feColorMatrix type="saturate" values="0" />
+                                        </filter>
+                                        <rect width="100%" height="100%" filter="url(#newspaper-grain)" />
+                                    </svg>
+                                </div>
 
                                 {/* Header Line */}
                                 <div className="border-b-4 border-black mb-4 mx-2 flex justify-between items-end pb-1">

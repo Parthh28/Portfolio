@@ -83,7 +83,7 @@ export default function MissionMap() {
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px] opacity-20" />
 
                 {/* 2. Tactical Overlay (Connecting Nodes) */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none">
                     <defs>
                         <linearGradient id="line-gradient" x1="0" y1="0" x2="1" y2="1">
                             <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0" />
@@ -91,27 +91,27 @@ export default function MissionMap() {
                             <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0" />
                         </linearGradient>
                     </defs>
-
+1: 
                     {/* Central Hub Circle */}
-                    <circle cx="50%" cy="50%" r="15%" fill="none" stroke="rgba(14, 165, 233, 0.2)" strokeWidth="1" strokeDasharray="4 2">
-                        <animateTransform attributeName="transform" type="rotate" from="0 500 280" to="360 500 280" dur="20s" repeatCount="indefinite" />
+                    <circle cx="50" cy="50" r="15" fill="none" stroke="rgba(14, 165, 233, 0.2)" strokeWidth="1" strokeDasharray="4 2">
+                        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="50%" cy="50%" r="25%" fill="none" stroke="rgba(14, 165, 233, 0.1)" strokeWidth="1" strokeDasharray="10 10">
-                        <animateTransform attributeName="transform" type="rotate" from="360 500 280" to="0 500 280" dur="30s" repeatCount="indefinite" />
+                    <circle cx="50" cy="50" r="25" fill="none" stroke="rgba(14, 165, 233, 0.1)" strokeWidth="1" strokeDasharray="10 10">
+                        <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="30s" repeatCount="indefinite" />
                     </circle>
-
+2: 
                     {/* Connecting Lines between Projects (Dynamic) */}
-                    <path d="M 40% 30% L 80% 40% L 50% 80% Z" fill="none" stroke="url(#line-gradient)" strokeWidth="1" opacity="0.4" />
-
+                    <path d="M 40 30 L 80 40 L 50 80 Z" fill="none" stroke="url(#line-gradient)" strokeWidth="1" opacity="0.4" />
+3: 
                     {/* Zone Recon Rectangles */}
-                    <rect x="35%" y="25%" width="10%" height="10%" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
-                    <text x="36%" y="24%" fill="#0ea5e9" fontSize="10" fontFamily="monospace" opacity="0.7">SECTOR 1: IND</text>
-
-                    <rect x="75%" y="35%" width="10%" height="10%" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
-                    <text x="76%" y="34%" fill="#0ea5e9" fontSize="10" fontFamily="monospace" opacity="0.7">SECTOR 2: WFD</text>
-
-                    <rect x="45%" y="75%" width="10%" height="10%" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
-                    <text x="46%" y="74%" fill="#0ea5e9" fontSize="10" fontFamily="monospace" opacity="0.7">SECTOR 3: ECITY</text>
+                    <rect x="35" y="25" width="10" height="10" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
+                    <text x="36" y="24" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 1: IND</text>
+4: 
+                    <rect x="75" y="35" width="10" height="10" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
+                    <text x="76" y="34" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 2: WFD</text>
+5: 
+                    <rect x="45" y="75" width="10" height="10" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
+                    <text x="46" y="74" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 3: ECITY</text>
                 </svg>
 
                 {/* 3. Scanning Radar Line */}

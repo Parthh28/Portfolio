@@ -21,8 +21,14 @@ export default function CinematicOverlay() {
                 style={{ backgroundSize: "100% 4px, 3px 100%" }}
             />
 
-            {/* Subtle animated noise/grain (Optional, keeping it light) */}
-            <div className="absolute inset-0 opacity-[0.05] animate-grain bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+            {/* Subtle animated noise/grain */}
+            <svg className="absolute inset-0 w-full h-full opacity-[0.05] pointer-events-none">
+                <filter id="grainy">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+                    <feColorMatrix type="saturate" values="0" />
+                </filter>
+                <rect width="100%" height="100%" filter="url(#grainy)" />
+            </svg>
         </div>
     );
 }
