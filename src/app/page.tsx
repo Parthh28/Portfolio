@@ -105,7 +105,7 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-32">
                 <TiltedCard
-                  imageSrc="/project.png"
+                  imageSrc="/Portfolio/project.png"
                   altText="Lab-house website"
                   captionText="Lab-house website"
                   containerHeight="500px"
@@ -131,7 +131,7 @@ export default function Home() {
                   onClick={() => window.open("https://labhouse1.netlify.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc="/habit.png"
+                  imageSrc="/Portfolio/habit.png"
                   altText="Habit Tracker"
                   captionText="Habit Tracker"
                   containerHeight="500px"
@@ -157,9 +157,10 @@ export default function Home() {
                   onClick={() => window.open("https://habitlog.netlify.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc="/Serene.png"
+                  imageSrc="/Portfolio/Serene.png"
                   altText="Serene Reminder"
                   captionText="Serene Reminder"
+
 
                   containerHeight="500px"
                   containerWidth="100%"
