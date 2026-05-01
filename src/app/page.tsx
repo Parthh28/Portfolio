@@ -5,7 +5,7 @@ import { motion, useScroll, useSpring, useTransform, useVelocity } from "framer-
 import IntroAnimation from "../components/IntroAnimation";
 import WebBackground from "../components/WebBackground";
 import ParallaxCity from "../components/ParallaxCity";
-import PendulumCard from "../components/PendulumCard";
+import TiltedCard from "../components/TiltedCard";
 import SpiderVerseBackground from "../components/SpiderVerseBackground";
 import SpecializationSection from "../components/SpecializationSection";
 import InterestsSection from "../components/InterestsSection";
@@ -95,7 +95,7 @@ export default function Home() {
           <div className="w-full snap-center pt-20">
             <InterestsSection />
           </div>
-          {/* WORKS GALLERY - PENDULUM CARDS */}
+          {/* WORKS GALLERY - TILTED CARDS */}
           <section className="w-full relative py-40 my-20 overflow-hidden snap-start">
             <SpiderVerseBackground />
             <div className="w-full max-w-6xl mx-auto px-4 relative z-10">
@@ -103,40 +103,116 @@ export default function Home() {
                 Latest Projects
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20 perspective-1000">
-                <PendulumCard
-                  title="Lab-house website"
-                  description="A website that company needs for their business. The website tells about their work and has the form to let them know who needs to calibrate"
-                  tech="HTML / CSS / JS"
-                  index={0}
-                  link="https://labhouse1.netlify.app/" // Replace with your actual URL
-                  image="/Portfolio/project.png" // Replace with your image path (e.g., "/my-project.png")
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-32">
+                <TiltedCard
+                  imageSrc="/project.png"
+                  altText="Lab-house website"
+                  captionText="Lab-house website"
+                  containerHeight="500px"
+                  containerWidth="100%"
+                  imageHeight="400px"
+                  imageWidth="100%"
+                  rotateAmplitude={12}
+                  scaleOnHover={1.1}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="w-full h-full flex flex-col justify-end">
+                      <div className="p-6 bg-spider-black/90 backdrop-blur-md border-t border-spider-red/50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] rounded-b-[15px]">
+                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">Lab-house website</h3>
+                        <p className="text-[11px] text-spider-gray mt-3 leading-relaxed font-mono">
+                          A website that company needs for their business. The website tells about their work and has the form to let them know who needs to calibrate
+                        </p>
+                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">HTML / CSS / JS</p>
+                      </div>
+                    </div>
+                  }
+                  onClick={() => window.open("https://labhouse1.netlify.app/", "_blank")}
                 />
-                <PendulumCard
-                  title="Habit Tracker"
-                  description="AI-driven analytics dashboard featuring predictive modeling and data visualization."
-                  tech="HTML / CSS / JS"
-                  link="https://habitlog.netlify.app/"
-                  index={1}
-                  image="/Portfolio/habit.png"
+                <TiltedCard
+                  imageSrc="/habit.png"
+                  altText="Habit Tracker"
+                  captionText="Habit Tracker"
+                  containerHeight="500px"
+                  containerWidth="100%"
+                  imageHeight="400px"
+                  imageWidth="100%"
+                  rotateAmplitude={12}
+                  scaleOnHover={1.1}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="w-full h-full flex flex-col justify-end">
+                      <div className="p-6 bg-spider-black/90 backdrop-blur-md border-t border-spider-red/50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] rounded-b-[15px]">
+                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">Habit Tracker</h3>
+                        <p className="text-[11px] text-spider-gray mt-3 leading-relaxed font-mono">
+                          AI-driven analytics dashboard featuring predictive modeling and data visualization.
+                        </p>
+                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">HTML / CSS / JS</p>
+                      </div>
+                    </div>
+                  }
+                  onClick={() => window.open("https://habitlog.netlify.app/", "_blank")}
                 />
-                <PendulumCard
-                  title="Serene Reminder"
-                  description="Serene Reminder is a gamified habit tracker that turns your daily routine into an RPG-like journey. It features a sleek, modern interface where you earn XP for completing habits to level up and evolve a virtual pet (like a dragon or cosmic spirit). Beyond tracking, it includes a robust alarm/reminder system, mood logging, and cloud synchronization via Supabase."
-                  tech="React / Tailwind CSS / Supabase"
-                  index={2}
-                  link="https://habit-tracker-puce-eight.vercel.app/"
-                  image="/Portfolio/Serene.png"
+                <TiltedCard
+                  imageSrc="/Serene.png"
+                  altText="Serene Reminder"
+                  captionText="Serene Reminder"
+
+                  containerHeight="500px"
+                  containerWidth="100%"
+                  imageHeight="400px"
+                  imageWidth="100%"
+                  rotateAmplitude={12}
+                  scaleOnHover={1.1}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="w-full h-full flex flex-col justify-end">
+                      <div className="p-6 bg-spider-black/90 backdrop-blur-md border-t border-spider-red/50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] rounded-b-[15px]">
+                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">Serene Reminder</h3>
+                        <p className="text-[11px] text-spider-gray mt-3 leading-relaxed font-mono line-clamp-3">
+                          A gamified habit tracker that turns your daily routine into an RPG-like journey. Earn XP, level up, and evolve a virtual pet while staying productive.
+                        </p>
+                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">React / Tailwind / Supabase</p>
+                      </div>
+                    </div>
+                  }
+                  onClick={() => window.open("https://habit-tracker-puce-eight.vercel.app/", "_blank")}
                 />
-                <PendulumCard
-                  title="Delta Engine"
-                  description="Custom game engine tailored for browser-based narrative experiences."
-                  tech="Canvas API / WASM"
-                  index={3}
+                <TiltedCard
+                  imageSrc="https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?q=80&w=1887&auto=format&fit=crop"
+                  altText="Delta Engine"
+                  captionText="Delta Engine"
+                  containerHeight="500px"
+                  containerWidth="100%"
+                  imageHeight="400px"
+                  imageWidth="100%"
+                  rotateAmplitude={12}
+                  scaleOnHover={1.1}
+                  showMobileWarning={false}
+                  showTooltip={true}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="w-full h-full flex flex-col justify-end">
+                      <div className="p-6 bg-spider-black/90 backdrop-blur-md border-t border-spider-red/50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] rounded-b-[15px]">
+                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">Delta Engine</h3>
+                        <p className="text-[11px] text-spider-gray mt-3 leading-relaxed font-mono">
+                          Custom game engine tailored for browser-based narrative experiences.
+                        </p>
+                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">Canvas API / WASM</p>
+                      </div>
+                    </div>
+                  }
                 />
+
               </div>
             </div>
           </section>
+
 
           {/* MISSION MAP - HOLOGRAPHIC CITY */}
           <div className="w-full snap-center pt-20">
