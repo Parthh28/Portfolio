@@ -444,3 +444,22 @@ body::after {
   animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
   transform: translate(5px, 0);
 }
+
+/* Scan Line Animation */
+@keyframes scan-line {
+  0% {
+    top: 0;
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.2;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 4s linear infinite;
+}
