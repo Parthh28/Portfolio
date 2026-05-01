@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 import MusicCard from "./MusicCard";
-import { cn } from "@/lib/utils";
+import { cn, assetPath } from "@/lib/utils";
 
 export default function AboutSection() {
     return (
@@ -36,7 +36,7 @@ export default function AboutSection() {
 
                             {/* Actual Image Layer - Will cover placeholder if image exists */}
                             <div className="absolute inset-0 w-full h-full bg-cover bg-center grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 z-10"
-                                style={{ backgroundImage: "url('/Portfolio/Me.jpg')" }}
+                                style={{ backgroundImage: `url('${assetPath("/Me.jpg")}')` }}
                             />
 
                             {/* Overlay Texture */}

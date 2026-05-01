@@ -17,6 +17,7 @@ import CinematicOverlay from "../components/CinematicOverlay";
 import ParallaxBackground from "../components/ParallaxBackground";
 import MissionMap from "../components/MissionMap";
 import WebNetSocials from "../components/WebNetSocials";
+import { assetPath } from "@/lib/utils";
 
 export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
@@ -105,7 +106,7 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-32">
                 <TiltedCard
-                  imageSrc="/Portfolio/project.png"
+                  imageSrc={assetPath("/project.png")}
                   altText="Lab-house website"
                   captionText="Lab-house website"
                   containerHeight="500px"
@@ -131,7 +132,7 @@ export default function Home() {
                   onClick={() => window.open("https://labhouse1.netlify.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc="/Portfolio/habit.png"
+                  imageSrc={assetPath("/habit.png")}
                   altText="Habit Tracker"
                   captionText="Habit Tracker"
                   containerHeight="500px"
@@ -157,7 +158,7 @@ export default function Home() {
                   onClick={() => window.open("https://habitlog.netlify.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc="/Portfolio/Serene.png"
+                  imageSrc={assetPath("/Serene.png")}
                   altText="Serene Reminder"
                   captionText="Serene Reminder"
 
@@ -185,7 +186,7 @@ export default function Home() {
                   onClick={() => window.open("https://habit-tracker-puce-eight.vercel.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc="https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?q=80&w=1887&auto=format&fit=crop"
+                  imageSrc={assetPath("https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?q=80&w=1887&auto=format&fit=crop")}
                   altText="Delta Engine"
                   captionText="Delta Engine"
                   containerHeight="500px"
@@ -211,6 +212,7 @@ export default function Home() {
                 />
 
               </div>
+
             </div>
           </section>
 
