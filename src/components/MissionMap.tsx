@@ -50,6 +50,17 @@ const PROJECTS: Project[] = [
         y: 80, // Electronic City / South
         location: "ELECTRONIC CITY",
         link: "https://habit-tracker-puce-eight.vercel.app/"
+    },
+    {
+        id: 4,
+        title: "NutriLife",
+        description: "A comprehensive nutrition and fitness tracking platform designed to help users achieve their health goals.",
+        status: "MISSION COMPLETE",
+        tech: ["HTML", "CSS", "JS"],
+        x: 30,
+        y: 60, // Koramangala / South-Central
+        location: "KORAMANGALA",
+        link: "https://parthh28.github.io/NutriLife/"
     }
 ];
 
@@ -98,6 +109,8 @@ export default function MissionMap() {
                     <text x="76" y="34" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 2: WFD</text>
                     <rect x="45" y="75" width="10" height="10" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
                     <text x="46" y="74" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 3: ECITY</text>
+                    <rect x="25" y="55" width="10" height="10" fill="none" stroke="#0ea5e9" strokeOpacity="0.3" rx="2" />
+                    <text x="26" y="54" fill="#0ea5e9" fontSize="2" fontFamily="monospace" opacity="0.7">SECTOR 4: KORM</text>
                 </svg>
 
 

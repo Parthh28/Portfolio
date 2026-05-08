@@ -186,9 +186,9 @@ export default function Home() {
                   onClick={() => window.open("https://habit-tracker-puce-eight.vercel.app/", "_blank")}
                 />
                 <TiltedCard
-                  imageSrc={assetPath("https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?q=80&w=1887&auto=format&fit=crop")}
-                  altText="Delta Engine"
-                  captionText="Delta Engine"
+                  imageSrc={assetPath("/NutriLife.png")}
+                  altText="NutriLife"
+                  captionText="NutriLife"
                   containerHeight="500px"
                   containerWidth="100%"
                   imageHeight="400px"
@@ -201,14 +201,15 @@ export default function Home() {
                   overlayContent={
                     <div className="w-full h-full flex flex-col justify-end">
                       <div className="p-6 bg-spider-black/90 backdrop-blur-md border-t border-spider-red/50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] rounded-b-[15px]">
-                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">Delta Engine</h3>
+                        <h3 className="text-2xl font-bold text-spider-white uppercase tracking-tighter">NutriLife</h3>
                         <p className="text-[11px] text-spider-gray mt-3 leading-relaxed font-mono">
-                          Custom game engine tailored for browser-based narrative experiences.
+                          A comprehensive nutrition and fitness tracking platform designed to help users achieve their health goals.
                         </p>
-                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">Canvas API / WASM</p>
+                        <p className="text-[10px] text-spider-red mt-4 font-bold uppercase tracking-widest font-mono">HTML / CSS / JS</p>
                       </div>
                     </div>
                   }
+                  onClick={() => window.open("https://parthh28.github.io/NutriLife/", "_blank")}
                 />
 
               </div>
