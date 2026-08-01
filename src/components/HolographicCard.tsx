@@ -1,22 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Cpu, Activity, Database, Zap } from "lucide-react";
-
-interface SubSkill {
-    name: string;
-    level: number;
-}
+import { motion } from "framer-motion";
+import { X, Cpu, Activity, Database } from "lucide-react";
 
 interface HolographicCardProps {
     title: string;
     description: string;
     level: number;
-    subSkills: SubSkill[];
     onClose: () => void;
 }
 
-export default function HolographicCard({ title, description, level, subSkills, onClose }: HolographicCardProps) {
+export default function HolographicCard({ title, description, level, onClose }: HolographicCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -24,7 +18,7 @@ export default function HolographicCard({ title, description, level, subSkills, 
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-spider-black/60"
         >
-            <div className="relative w-full max-w-2xl bg-spider-black/80 border border-stark-blue/50 rounded-lg shadow-[0_0_30px_rgba(0,168,255,0.3)] overflow-hidden">
+            <div className="relative w-full max-w-md bg-spider-black/80 border border-stark-blue/50 rounded-lg shadow-[0_0_30px_rgba(0,168,255,0.3)] overflow-hidden">
 
                 {/* Header / HUD Top Bar */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-stark-blue/30 bg-stark-blue/10">
@@ -43,14 +37,14 @@ export default function HolographicCard({ title, description, level, subSkills, 
                 </div>
 
                 {/* Content Body */}
-                <div className="p-8 grid md:grid-cols-2 gap-8 relative">
+                <div className="p-8 flex flex-col items-center text-center relative">
                     {/* Background grid overlay */}
                     <div className="absolute inset-0 pointer-events-none opacity-10"
                         style={{ backgroundImage: 'linear-gradient(rgba(0,168,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,168,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }}
                     />
 
-                    {/* Left Column: Stats */}
-                    <div className="space-y-6 relative z-10">
+                    {/* Stats */}
+                    <div className="space-y-6 relative z-10 flex flex-col items-center">
                         <div>
                             <h3 className="text-3xl font-bold text-stark-white mb-2 uppercase tracking-wide drop-shadow-neon">
                                 {title}
@@ -79,31 +73,6 @@ export default function HolographicCard({ title, description, level, subSkills, 
                             </div>
                         </div>
                     </div>
-
-                    {/* Right Column: Sub-skills */}
-                    <div className="space-y-4 relative z-10">
-                        <div className="flex items-center space-x-2 mb-4 border-b border-stark-blue/20 pb-2">
-                            <Database className="w-4 h-4 text-stark-cyan" />
-                            <span className="text-stark-white font-mono text-sm uppercase">Detailed Breakdown</span>
-                        </div>
-
-                        {subSkills.map((skill, idx) => (
-                            <div key={idx} className="group">
-                                <div className="flex justify-between text-xs font-mono text-stark-blue/90 mb-1">
-                                    <span>{skill.name}</span>
-                                    <span className="group-hover:text-stark-cyan transition-colors">{skill.level}%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-stark-blue/10 rounded-full overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${skill.level}%` }}
-                                        transition={{ duration: 1, delay: idx * 0.1 }}
-                                        className="h-full bg-stark-cyan shadow-[0_0_10px_#00FFFF]"
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
                 </div>
 
                 {/* Footer / Data Stream */}
@@ -112,7 +81,7 @@ export default function HolographicCard({ title, description, level, subSkills, 
                         <Activity className="w-3 h-3 animate-pulse" />
                         <span>SYSTEM_STATUS: OPTIMAL</span>
                     </div>
-                    <span>ID: {title.substring(0, 3).toUpperCase()}-{level}X-{subSkills.length}</span>
+                    <span>ID: {title.substring(0, 3).toUpperCase()}-{level}X-00</span>
                 </div>
             </div>
         </motion.div>

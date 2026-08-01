@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useSpring, useTransform, useVelocity } from "framer-motion";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useSyncExternalStore } from "react";
 import { Github, Linkedin, Mail, X, Instagram } from "lucide-react";
 
 const SOCIALS = [
@@ -17,17 +17,20 @@ const SOCIALS = [
 
 export default function WebNetSocials() {
     const containerRef = useRef(null);
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     // Physics-based sway for the "web" strands
     const { scrollY } = useScroll();
     const scrollVelocity = useVelocity(scrollY);
     const springVelocity = useSpring(scrollVelocity, { stiffness: 50, damping: 10 });
     const springSkew = useTransform(springVelocity, [-1000, 1000], [-15, 15]);
+
+    // Ensure hydration stability for scroll-driven animations
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+
     return (
         <section ref={containerRef} className="relative w-full h-[60vh] flex flex-col items-center justify-start pt-20 overflow-hidden bg-spider-black">
 
@@ -36,7 +39,7 @@ export default function WebNetSocials() {
                 Caught the Vibe?
             </h2>
             <p className="text-spider-blue font-mono mb-20 z-10 relative">
-                // CONNECT WITH THE NETWORK
+                {"// CONNECT WITH THE NETWORK"}
             </p>
 
             {/* The Web Net Container */}
@@ -46,14 +49,14 @@ export default function WebNetSocials() {
                         key={social.id}
                         social={social}
                         index={index}
-                        sway={springSkew}
+                        sway={mounted ? springSkew : 0}
                     />
                 ))}
             </div>
 
             {/* Realistic Background Web Decor */}
-            {isMounted && (
             <div 
+                suppressHydrationWarning
                 className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center overflow-hidden z-0" 
                 style={{ 
                     opacity: 0.15, 
@@ -61,19 +64,19 @@ export default function WebNetSocials() {
                     WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 70%)" 
                 }}
             >
-                <svg viewBox="0 0 1000 1000" className="w-[150%] h-[150%] md:w-[100%] md:h-[100%] stroke-spider-white origin-center" style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.7))" }}>
+                <svg suppressHydrationWarning viewBox="0 0 1000 1000" className="w-[150%] h-[150%] md:w-[100%] md:h-[100%] stroke-spider-white origin-center" style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.7))" }}>
                     {/* Messy Center Hub */}
                     {Array.from({ length: 20 }).map((_, i) => {
                         // Use deterministic mathematical functions instead of Math.random() for SSR hydration
                         const a1 = Math.abs(Math.sin(i * 13.5)) * Math.PI * 2;
                         const r1 = Math.abs(Math.cos(i * 7.2)) * 50;
-                        const x1 = 500 + Math.cos(a1) * r1;
-                        const y1 = 500 + Math.sin(a1) * r1;
+                        const x1 = (500 + Math.cos(a1) * r1).toFixed(2);
+                        const y1 = (500 + Math.sin(a1) * r1).toFixed(2);
                         const a2 = Math.abs(Math.sin(i * 22.8)) * Math.PI * 2;
                         const r2 = Math.abs(Math.cos(i * 11.4)) * 50;
-                        const x2 = 500 + Math.cos(a2) * r2;
-                        const y2 = 500 + Math.sin(a2) * r2;
-                        return <line key={`center-${i}`} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={0.5 + Math.abs(Math.sin(i * 5.1))} strokeOpacity={0.4 + Math.abs(Math.cos(i * 9.3)) * 0.4} />;
+                        const x2 = (500 + Math.cos(a2) * r2).toFixed(2);
+                        const y2 = (500 + Math.sin(a2) * r2).toFixed(2);
+                        return <line key={`center-${i}`} suppressHydrationWarning x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={(0.5 + Math.abs(Math.sin(i * 5.1))).toFixed(2)} strokeOpacity={(0.4 + Math.abs(Math.cos(i * 9.3)) * 0.4).toFixed(2)} />;
                     })}
 
                     {/* Radial threads (Structural) */}
@@ -83,14 +86,14 @@ export default function WebNetSocials() {
                         const angleVariance = Math.sin(i * 4.1) * 0.12;
                         const angle = baseAngle + angleVariance;
                         const length = 800 + Math.sin(i * 7.3) * 200;
-                        const x2 = 500 + Math.cos(angle) * length;
-                        const y2 = 500 + Math.sin(angle) * length;
+                        const x2 = (500 + Math.cos(angle) * length).toFixed(2);
+                        const y2 = (500 + Math.sin(angle) * length).toFixed(2);
                         
                         // Varying thickness and opacity for depth
-                        const opacity = 0.15 + (Math.sin(i * 13) * 0.5 + 0.5) * 0.4;
-                        const width = 0.5 + (Math.sin(i * 22) * 0.5 + 0.5) * 2;
+                        const opacity = (0.15 + (Math.sin(i * 13) * 0.5 + 0.5) * 0.4).toFixed(2);
+                        const width = (0.5 + (Math.sin(i * 22) * 0.5 + 0.5) * 2).toFixed(2);
                         
-                        return <line key={`radial-${i}`} x1="500" y1="500" x2={x2} y2={y2} strokeWidth={width} strokeOpacity={opacity} />;
+                        return <line key={`radial-${i}`} suppressHydrationWarning x1="500" y1="500" x2={x2} y2={y2} strokeWidth={width} strokeOpacity={opacity} />;
                     })}
                     
                     {/* Spiral threads (Catching) */}
@@ -114,10 +117,10 @@ export default function WebNetSocials() {
                             const r1 = rBase + Math.sin(i * 13.1 + currentJ * 7.5) * 12;
                             const r2 = rBase + Math.sin(i * 13.1 + nextJ * 7.5) * 12;
 
-                            const x1 = 500 + Math.cos(a1) * r1;
-                            const y1 = 500 + Math.sin(a1) * r1;
-                            const x2 = 500 + Math.cos(a2) * r2;
-                            const y2 = 500 + Math.sin(a2) * r2;
+                            const x1 = (500 + Math.cos(a1) * r1).toFixed(2);
+                            const y1 = (500 + Math.sin(a1) * r1).toFixed(2);
+                            const x2 = (500 + Math.cos(a2) * r2).toFixed(2);
+                            const y2 = (500 + Math.sin(a2) * r2).toFixed(2);
                             
                             // Midpoint for sagging bezier curve
                             const midAngle = (a1 + a2) / 2;
@@ -125,10 +128,9 @@ export default function WebNetSocials() {
                             const tightness = (Math.sin(i * 2.1 + currentJ * 3.4) * 0.5 + 0.5); 
                             const sagFactor = 0.98 - tightness * 0.2; // 0.78 to 0.98 (pulls inwards)
                             
-                            const cx = 500 + Math.cos(midAngle) * ((r1 + r2) / 2 * sagFactor);
-                            const cy = 500 + Math.sin(midAngle) * ((r1 + r2) / 2 * sagFactor);
+                            const cx = (500 + Math.cos(midAngle) * ((r1 + r2) / 2 * sagFactor)).toFixed(2);
+                            const cy = (500 + Math.sin(midAngle) * ((r1 + r2) / 2 * sagFactor)).toFixed(2);
                             
-                            // Randomly break individual segments
                             // Randomly break individual segments
                             const skipSegment = Math.sin(i * 17.1 + currentJ * 9.3) > 0.85;
 
@@ -142,14 +144,13 @@ export default function WebNetSocials() {
                             }
                         }
                         
-                        const opacity = 0.1 + (i / 40) * 0.35 + (Math.sin(i * 44) * 0.5 + 0.5) * 0.15;
-                        const strokeWidth = 0.4 + (Math.sin(i * 33) * 0.5 + 0.5) * 0.8;
+                        const opacity = (0.1 + (i / 40) * 0.35 + (Math.sin(i * 44) * 0.5 + 0.5) * 0.15).toFixed(2);
+                        const strokeWidth = (0.4 + (Math.sin(i * 33) * 0.5 + 0.5) * 0.8).toFixed(2);
                         
-                        return <path key={`spiral-${i}`} d={d} fill="none" strokeWidth={strokeWidth} strokeOpacity={opacity} />;
+                        return <path key={`spiral-${i}`} suppressHydrationWarning d={d} fill="none" strokeWidth={strokeWidth} strokeOpacity={opacity} />;
                     })}
                 </svg>
             </div>
-            )}
 
             {/* SVG Gradient Definitions (Injected) */}
             <svg width="0" height="0" className="absolute">
@@ -173,15 +174,16 @@ export default function WebNetSocials() {
     );
 }
 
-function WebNode({ social, index, sway }: { social: any, index: number, sway: any }) {
+function WebNode({ social, index, sway }: { social: typeof SOCIALS[0], index: number, sway: any }) {
     // Randomize thread length
     const threadLength = 60 + (index % 2) * 50;
     const isInsta = social.label === "Instagram";
 
     return (
         <motion.div
+            suppressHydrationWarning
             className="relative flex flex-col items-center origin-top cursor-pointer group"
-            style={{ rotate: sway } as any}
+            style={{ rotate: sway }}
             whileHover={{ rotate: 0, scale: 1.1 }}
         >
             {/* Realistic Web Thread */}

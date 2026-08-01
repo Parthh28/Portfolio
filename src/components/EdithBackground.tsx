@@ -15,8 +15,9 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        let animationFrameId: number;
+        let animationFrameId: number | null = null;
         let time = 0;
+        let isVisible = true;
 
         const resize = () => {
             if (canvas.parentElement) {
@@ -28,7 +29,6 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
         resize();
 
         // Palette
-        const STARK_BLUE = "#00A8FF";
         const STARK_CYAN = "#00FFFF";
         const HUD_GRID = "rgba(0, 168, 255, 0.1)";
         const ALERT_ORANGE = "#FF5500";
@@ -41,17 +41,13 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
             locked: boolean;
             life: number;
         }
-        let targets: Target[] = [];
+        const targets: Target[] = [];
 
         const drawGrid = () => {
-            // Perspective Grid
             ctx.strokeStyle = HUD_GRID;
             ctx.lineWidth = 1;
 
-            // Horizon line
             const horizonY = canvas.height * 0.6;
-
-            // Vertical lines fanning out
             const centerX = canvas.width / 2;
             for (let i = -10; i <= 10; i++) {
                 ctx.beginPath();
@@ -60,7 +56,6 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
                 ctx.stroke();
             }
 
-            // Horizontal lines
             for (let i = 0; i < 10; i++) {
                 const y = horizonY + Math.pow(i, 2) * 5;
                 if (y > canvas.height) break;
@@ -75,23 +70,16 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
             ctx.strokeStyle = t.locked ? ALERT_ORANGE : STARK_CYAN;
             ctx.lineWidth = 2;
 
-            // Corners
             const s = t.size;
-            // Top Left
             ctx.beginPath(); ctx.moveTo(t.x - s, t.y - s / 2); ctx.lineTo(t.x - s, t.y - s); ctx.lineTo(t.x - s / 2, t.y - s); ctx.stroke();
-            // Top Right
             ctx.beginPath(); ctx.moveTo(t.x + s / 2, t.y - s); ctx.lineTo(t.x + s, t.y - s); ctx.lineTo(t.x + s, t.y - s / 2); ctx.stroke();
-            // Bottom Right
             ctx.beginPath(); ctx.moveTo(t.x + s, t.y + s / 2); ctx.lineTo(t.x + s, t.y + s); ctx.lineTo(t.x + s / 2, t.y + s); ctx.stroke();
-            // Bottom Left
             ctx.beginPath(); ctx.moveTo(t.x - s / 2, t.y + s); ctx.lineTo(t.x - s, t.y + s); ctx.lineTo(t.x - s, t.y + s / 2); ctx.stroke();
 
-            // Center cross
             if (t.locked) {
                 ctx.fillStyle = ALERT_ORANGE;
                 ctx.fillRect(t.x - 2, t.y - 2, 4, 4);
 
-                // Text
                 ctx.fillStyle = STARK_CYAN;
                 ctx.font = "10px monospace";
                 ctx.fillText(`ID_TARGET: ${Math.floor(t.x)}`, t.x + s + 5, t.y);
@@ -115,21 +103,21 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
             ctx.fillRect(0, y, canvas.width, 50);
             ctx.fillStyle = STARK_CYAN;
             ctx.fillRect(0, y + 50, canvas.width, 2);
-        }
+        };
 
         const animate = () => {
+            if (!isVisible || document.hidden) {
+                animationFrameId = null;
+                return;
+            }
             time++;
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Grid
             drawGrid();
-
-            // 2. Data Streams (Left and Right edges)
             drawDataStream(50);
             drawDataStream(canvas.width - 50);
 
-            // 3. Targets
-            if (Math.random() < 0.02) {
+            if (Math.random() < 0.02 && targets.length < 5) {
                 targets.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
@@ -150,10 +138,8 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
                 drawReticle(t);
             }
 
-            // 4. Scan Line
             drawScanLine();
 
-            // 5. Circle HUD Element
             ctx.strokeStyle = "rgba(0, 168, 255, 0.3)";
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -167,11 +153,48 @@ export default function EdithBackground({ className = "" }: EdithBackgroundProps
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        animate();
+        const startAnimation = () => {
+            if (animationFrameId === null && isVisible && !document.hidden) {
+                animate();
+            }
+        };
+
+        const stopAnimation = () => {
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    startAnimation();
+                } else {
+                    stopAnimation();
+                }
+            });
+        }, { threshold: 0.01 });
+
+        if (canvas) observer.observe(canvas);
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                stopAnimation();
+            } else if (isVisible) {
+                startAnimation();
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        startAnimation();
 
         return () => {
             window.removeEventListener("resize", resize);
-            cancelAnimationFrame(animationFrameId);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            if (observer && canvas) observer.unobserve(canvas);
+            stopAnimation();
         };
     }, []);
 

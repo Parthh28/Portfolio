@@ -1,32 +1,14 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useVelocity } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useSyncExternalStore } from "react";
 
 export default function ParallaxCity() {
     const targetRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress, scrollY } = useScroll({
+    const { scrollYProgress } = useScroll({
         target: targetRef,
         offset: ["start start", "end end"],
     });
-
-    // Get scroll velocity
-    const scrollVelocity = useVelocity(scrollY);
-    // Smooth the velocity for a less jumpy blur effect
-    const smoothVelocity = useSpring(scrollVelocity, {
-        damping: 50,
-        stiffness: 400,
-    });
-
-    // Parallax layers
-    // As we scroll down (climb down), the layers move at different speeds.
-    // 0% scroll = Top of building
-    // 100% scroll = Street level
-
-    // Map velocity (-1500 to 1500) to blur amount (0px to 12px) - More sensitive/visible
-    const blurAmount = useTransform(smoothVelocity, [-1500, 0, 1500], [12, 0, 12]);
-    // Create filter string: "blur(5px)"
-    const blurFilter = useTransform(blurAmount, (v) => `blur(${v}px)`);
 
     // Distant skyline (moves very slowly)
     const skyY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
@@ -37,17 +19,25 @@ export default function ParallaxCity() {
     // Foreground (closest buildings, move fastest)
     const foreY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
 
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+
     return (
-        <div ref={targetRef} className="absolute inset-0 z-0 pointer-events-none overflow-hidden h-full">
+        <div ref={targetRef} suppressHydrationWarning className="absolute inset-0 z-0 pointer-events-none overflow-hidden h-full">
             {/* Layer 1: Sky/Distant */}
             <motion.div
-                style={{ y: skyY }}
+                suppressHydrationWarning
+                style={{ y: mounted ? skyY : "0%", willChange: "transform" }}
                 className="absolute inset-x-0 bottom-0 h-full w-full bg-gradient-to-b from-[#050505] to-[#1a1a1a]"
             />
 
             {/* Layer 2: Mid-ground Skyline */}
             <motion.div
-                style={{ y: midY }}
+                suppressHydrationWarning
+                style={{ y: mounted ? midY : "0%", willChange: "transform" }}
                 className="absolute inset-x-0 bottom-[-20%] h-[120%] w-full opacity-80 flex items-end justify-around blur-[1px]"
             >
                 {/* Procedural Buildings (Silhouette) */}
@@ -60,7 +50,8 @@ export default function ParallaxCity() {
 
             {/* Layer 3: Foreground Buildings (Detailed) */}
             <motion.div
-                style={{ y: foreY }}
+                suppressHydrationWarning
+                style={{ y: mounted ? foreY : "0%", willChange: "transform" }}
                 className="absolute inset-x-0 bottom-[-10%] h-[110%] w-full flex items-end justify-between px-10"
             >
                 <div className="w-[20%] h-[70%] bg-gradient-to-b from-[#151515] to-spider-black border-t-2 border-spider-red/30 relative block shadow-2xl">

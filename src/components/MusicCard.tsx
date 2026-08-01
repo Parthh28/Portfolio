@@ -1,9 +1,31 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { Play, Pause, Music } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Play, Pause } from "lucide-react";
+import { assetPath } from "@/lib/utils";
+
+const LYRICS = [
+    // Verse 1
+    { time: 0.5, text: "Thinkin' in a bad way, losin' your grip" },
+    { time: 3.2, text: "Screamin' at my face, baby, don't trip" },
+    { time: 5.9, text: "Someone took a big L, don't know how that felt" },
+    { time: 8.6, text: "Lookin' at you sideways, party on tilt" },
+    { time: 11.3, text: "Ooh-ooh-ooh" },
+    { time: 14.0, text: "Some things you just can't refuse" },
+    { time: 16.7, text: "She wanna ride me like a cruise" },
+    { time: 19.4, text: "And I'm not tryna lose" },
+
+    // Chorus
+    { time: 22.1, text: "Then you're left in the dust" },
+    { time: 24.8, text: "Unless I stuck by ya" },
+    { time: 27.5, text: "You're the sunflower" },
+    { time: 30.2, text: "I think your love would be too much" },
+    { time: 32.9, text: "Or you'll be left in the dust" },
+    { time: 35.6, text: "Unless I stuck by ya" },
+    { time: 38.3, text: "You're the sunflower" },
+    { time: 41.0, text: "You're the sunflower" },
+];
 
 export default function MusicCard() {
     const [isPlaying, setIsPlaying] = useState(false); // Start paused to allow user interaction
@@ -11,40 +33,23 @@ export default function MusicCard() {
     const [activeLyricIndex, setActiveLyricIndex] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const LYRICS = [
-        // Verse 1
-        { time: 0.5, text: "Thinkin' in a bad way, losin' your grip" },
-        { time: 3.2, text: "Screamin' at my face, baby, don't trip" },
-        { time: 5.9, text: "Someone took a big L, don't know how that felt" },
-        { time: 8.6, text: "Lookin' at you sideways, party on tilt" },
-        { time: 11.3, text: "Ooh-ooh-ooh" },
-        { time: 14.0, text: "Some things you just can't refuse" },
-        { time: 16.7, text: "She wanna ride me like a cruise" },
-        { time: 19.4, text: "And I'm not tryna lose" },
-
-        // Chorus
-        { time: 22.1, text: "Then you're left in the dust" },
-        { time: 24.8, text: "Unless I stuck by ya" },
-        { time: 27.5, text: "You're the sunflower" },
-        { time: 30.2, text: "I think your love would be too much" },
-        { time: 32.9, text: "Or you'll be left in the dust" },
-        { time: 35.6, text: "Unless I stuck by ya" },
-        { time: 38.3, text: "You're the sunflower" },
-        { time: 41.0, text: "You're the sunflower" },
-    ];
-
     // Audio Ref
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // Hydration check
-    const [mounted, setMounted] = useState(false);
+    // Hydration check via useSyncExternalStore without effect setState cascades
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+
     useEffect(() => {
-        setMounted(true);
-        // Initialize audio
-        audioRef.current = new Audio("/Portfolio/sunflower.mp3");
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.5;
-    }, []);
+        if (mounted && !audioRef.current) {
+            audioRef.current = new Audio(assetPath("/sunflower.mp3"));
+            audioRef.current.loop = true;
+            audioRef.current.volume = 0.5;
+        }
+    }, [mounted]);
 
     // Toggle Play/Pause
     const togglePlay = () => {
@@ -207,17 +212,22 @@ export default function MusicCard() {
 
                 {/* Audio Viz Bars (Fake) */}
                 <div className="absolute bottom-0 left-0 w-full h-1 flex items-end justify-between px-1 opacity-50">
-                    {Array.from({ length: 20 }).map((_, i) => (
-                        <div
-                            key={i}
-                            className="w-1 bg-spider-verse-cyan rounded-t-sm animate-wave"
-                            style={{
-                                height: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random()}s`,
-                                animationDuration: `${0.5 + Math.random()}s`
-                            }}
-                        />
-                    ))}
+                    {Array.from({ length: 20 }).map((_, i) => {
+                        const h = Math.abs(Math.sin(i * 13.5)) * 100;
+                        const delay = Math.abs(Math.cos(i * 7.2));
+                        const duration = 0.5 + Math.abs(Math.sin(i * 4.1));
+                        return (
+                            <div
+                                key={i}
+                                className="w-1 bg-spider-verse-cyan rounded-t-sm animate-wave"
+                                style={{
+                                    height: `${h}%`,
+                                    animationDelay: `${delay}s`,
+                                    animationDuration: `${duration}s`
+                                }}
+                            />
+                        );
+                    })}
                 </div>
             </motion.div>
         </div>

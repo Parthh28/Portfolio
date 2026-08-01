@@ -1,68 +1,38 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import EdithBackground from "./EdithBackground";
 import HolographicCard from "./HolographicCard";
-import { Code, Server, Database, Box, Cpu, Wifi, Folder, ChevronRight, HardDrive } from "lucide-react";
+import { Code, Cpu, ChevronRight, Layout, Layers, Terminal } from "lucide-react";
+import { Skills } from "@/components/ui/skills-showcase";
 
 // Data Structure
 const SPECIALIZATIONS = [
     {
         id: "frontend",
-        label: "Frontend",
+        label: "Front End",
         icon: Code,
         level: 98,
         description: "Building responsive, high-performance user interfaces with modern React ecosystems.",
-        subSkills: [
-            { name: "React / Next.js", level: 95 },
-            { name: "TypeScript", level: 95 },
-            { name: "Tailwind CSS / Framer Motion", level: 98 },
-            { name: "Three.js / WebGL", level: 85 }
-        ]
     },
     {
-        id: "backend",
-        label: "Backend",
-        icon: Server,
-        level: 85,
-        description: "Architecting scalable server-side solutions and API integrations.",
-        subSkills: [
-            { name: "Node.js / Express", level: 90 },
-            { name: "Python / Django", level: 80 },
-        ]
+        id: "web-design",
+        label: "Web Design",
+        icon: Layout,
+        level: 95,
+        description: "Designing visually captivating, modern web aesthetics with dynamic motion and rich visual hierarchies.",
     },
     {
-        id: "system",
-        label: "System",
-        icon: Database,
-        level: 90,
-        description: "Optimizing database schemas and cloud infrastructure for reliability.",
-        subSkills: [
-            { name: "PostgreSQL / MongoDB", level: 92 },
-            { name: "Docker / Kubernetes", level: 85 },
-            { name: "AWS Services", level: 80 },
-            { name: "CI/CD Pipelines", level: 88 }
-        ]
-    },
-    {
-        id: "ai",
-        label: "AI / ML",
-        icon: Cpu,
-        level: 75,
-        description: "Integrating intelligent models and predictive analytics into applications.",
-        subSkills: [
-            { name: "TensorFlow.js", level: 70 },
-            { name: "OpenAI API", level: 90 },
-            { name: "Data Processing", level: 80 },
-            { name: "Prompt Engineering", level: 85 }
-        ]
+        id: "ui-ux",
+        label: "UI/UX",
+        icon: Layers,
+        level: 96,
+        description: "Crafting intuitive, user-centered digital experiences with seamless micro-interactions and accessible flows.",
     },
 ];
 
-const HolographicSuitMenu = ({ items, onSelect, onClose }: { items: typeof SPECIALIZATIONS, onSelect: (spec: any) => void, onClose: () => void }) => {
-    // Radius in percentage of the container
-    const radiusPercentage = 35;
+const HolographicSuitMenu = ({ items, onSelect, onClose }: { items: typeof SPECIALIZATIONS, onSelect: (spec: typeof SPECIALIZATIONS[0]) => void, onClose: () => void }) => {
 
     return (
         <section className="relative w-full min-h-screen pt-32 pb-20 px-4 flex flex-col items-center justify-center overflow-hidden">
@@ -266,37 +236,44 @@ export default function SpecializationSection() {
                     >
                         {/* Title & Static Content */}
                         <div className="w-full max-w-6xl px-4 text-center">
-                            <h2 className="text-4xl md:text-5xl font-bold text-spider-white mb-8 tracking-widest uppercase text-stark drop-shadow-neon">
-                                <span className="text-neon-cyan mr-4 opacity-50 font-mono text-xl align-middle">03.</span>
-                                Suit Upgrades
+                            <h2 className="text-4xl md:text-6xl font-black text-spider-white mb-4 tracking-widest uppercase text-stark drop-shadow-neon">
+                                <span className="text-neon-cyan mr-4 opacity-50 font-mono text-2xl align-middle">03.</span>
+                                TECH STACK
                             </h2>
                             <div className="flex items-center justify-center space-x-2 text-stark-blue/60 font-mono text-xs mb-16 select-none">
                                 <span className="text-stark-cyan font-bold">ROOT</span>
                                 <ChevronRight className="w-3 h-3" />
                                 <span>SYSTEM</span>
                                 <ChevronRight className="w-3 h-3" />
-                                <span>SPECIALIZATION_MODULES</span>
+                                <span>TECH_STACK_MODULES</span>
                             </div>
 
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => setRootOpen(true)}
-                                className="group cursor-pointer inline-flex flex-col items-center gap-4 transition-all"
-                            >
-                                <div className="relative w-40 h-32 bg-stark-blue/10 border border-stark-blue/30 rounded-t-lg rounded-br-lg flex items-center justify-center overflow-hidden hover:bg-stark-blue/20 hover:border-stark-cyan hover:shadow-[0_0_25px_rgba(0,168,255,0.4)] transition-all duration-300">
-                                    <div className="absolute top-0 left-0 w-1/3 h-3 bg-stark-blue/30 rounded-tl-lg" />
-                                    <Folder className="w-16 h-16 text-stark-blue/80 group-hover:text-stark-cyan transition-colors" />
-                                </div>
-                                <div className="text-center">
-                                    <span className="block text-stark-white font-mono text-lg tracking-wider uppercase group-hover:text-stark-cyan transition-colors">
-                                        SPECIALIZATIONS
-                                    </span>
-                                    <span className="text-xs text-stark-blue/60 font-mono">
-                                        OPEN FOLDER TO INITIALIZE
-                                    </span>
-                                </div>
-                            </motion.div>
+                            {/* Interactive Skills Showcase */}
+                            <div className="flex flex-col items-center justify-center my-6 w-full">
+                                <Skills
+                                    onSkillClick={(skill) => {
+                                        const found = SPECIALIZATIONS.find(
+                                            (s) => s.label.toLowerCase() === skill.name.toLowerCase()
+                                        );
+                                        if (found) {
+                                            setSelectedSpec(found);
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                            <div className="flex justify-center mt-4">
+                                <motion.button
+                                    onClick={() => setRootOpen(true)}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    suppressHydrationWarning
+                                    className="px-8 py-3.5 bg-stark-cyan/10 hover:bg-stark-cyan/20 border border-stark-cyan text-stark-cyan font-mono text-xs md:text-sm tracking-widest uppercase rounded-full shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_35px_rgba(0,255,255,0.8)] transition-all flex items-center gap-3 cursor-pointer group"
+                                >
+                                    <span>INITIALIZE MODULES</span>
+                                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            </div>
                         </div>
                     </motion.section>
                 ) : (
@@ -321,7 +298,6 @@ export default function SpecializationSection() {
                 {selectedSpec && (
                     <HolographicCard
                         title={selectedSpec.label}
-                        subSkills={selectedSpec.subSkills}
                         level={selectedSpec.level}
                         description={selectedSpec.description}
                         onClose={() => setSelectedSpec(null)}

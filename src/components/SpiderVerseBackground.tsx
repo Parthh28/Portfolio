@@ -12,13 +12,37 @@ export default function SpiderVerseBackground() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        let animationFrameId: number;
+        let animationFrameId: number | null = null;
         let time = 0;
+        let isVisible = true;
+
+        let cachedPositions: { x: number, y: number }[] = [];
+        let lastPosUpdate = 0;
+
+        const updateCardPositions = () => {
+            if (!canvas.parentElement) return;
+            const cards = document.querySelectorAll('.project-card-node');
+            if (cards.length === 0) {
+                cachedPositions = [];
+                return;
+            }
+            const parentRect = canvas.parentElement.getBoundingClientRect();
+            const positions: { x: number, y: number }[] = [];
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                positions.push({
+                    x: rect.left + rect.width / 2 - parentRect.left,
+                    y: rect.top + 50 - parentRect.top
+                });
+            });
+            cachedPositions = positions;
+        };
 
         const resize = () => {
             if (canvas.parentElement) {
                 canvas.width = canvas.parentElement.clientWidth;
                 canvas.height = canvas.parentElement.clientHeight;
+                updateCardPositions();
             }
         };
 
@@ -36,7 +60,7 @@ export default function SpiderVerseBackground() {
         window.addEventListener("mousemove", handleMouseMove);
         resize();
 
-        // Particles System (Matching WebBackground.tsx)
+        // Particles System
         interface Particle {
             x: number;
             y: number;
@@ -46,37 +70,21 @@ export default function SpiderVerseBackground() {
         }
 
         const particles: Particle[] = [];
-        const PARTICLE_COUNT = 50;
+        const PARTICLE_COUNT = 30; // Optimized particle density for high FPS
         const CONNECTION_DISTANCE = 150;
+        const CONNECTION_DIST_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
         const MOUSE_DISTANCE = 200;
+        const MOUSE_DIST_SQ = MOUSE_DISTANCE * MOUSE_DISTANCE;
 
-        // Initialize particles
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
                 size: Math.random() * 2 + 1
             });
         }
-
-        const getCardPositions = () => {
-            const cards = document.querySelectorAll('.project-card-node');
-            const positions: { x: number, y: number }[] = [];
-
-            if (!canvas.parentElement) return [];
-            const parentRect = canvas.parentElement.getBoundingClientRect();
-
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                positions.push({
-                    x: rect.left + rect.width / 2 - parentRect.left,
-                    y: rect.top + 50 - parentRect.top
-                });
-            });
-            return positions;
-        };
 
         const drawWebLine = (x1: number, y1: number, x2: number, y2: number) => {
             ctx.beginPath();
@@ -84,10 +92,11 @@ export default function SpiderVerseBackground() {
 
             const midX = (x1 + x2) / 2;
             const midY = (y1 + y2) / 2;
-            const dist = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const dist = Math.sqrt(dx * dx + dy * dy);
             const droop = dist * 0.1;
 
-            // Gentle sway
             ctx.quadraticCurveTo(
                 midX,
                 midY + droop + Math.sin(time * 0.02 + x1) * 2,
@@ -101,29 +110,31 @@ export default function SpiderVerseBackground() {
         };
 
         const animate = () => {
+            if (!isVisible || document.hidden) {
+                animationFrameId = null;
+                return;
+            }
             time++;
 
-            // 1. Clear (Transparent/Dark)
+            // Update DOM queries only periodically (once every ~60 frames) instead of every frame
+            if (time - lastPosUpdate > 60 || time === 1) {
+                updateCardPositions();
+                lastPosUpdate = time;
+            }
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Project Card Connections (The "structure")
-            const positions = getCardPositions();
-
+            const positions = cachedPositions;
             if (positions.length > 0) {
-                // Connect top
                 drawWebLine(canvas.width / 2, -100, positions[0].x, positions[0].y);
-
-                // Connect cards
                 for (let i = 0; i < positions.length - 1; i++) {
                     drawWebLine(positions[i].x, positions[i].y, positions[i + 1].x, positions[i + 1].y);
                 }
-                // Cross connections
                 for (let i = 0; i < positions.length - 2; i++) {
                     drawWebLine(positions[i].x, positions[i].y, positions[i + 2].x, positions[i + 2].y);
                 }
             }
 
-            // 3. Ambient Particles (The "atmosphere" from WebBackground)
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -136,14 +147,14 @@ export default function SpiderVerseBackground() {
                 ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
                 ctx.fill();
 
-                // Connect particles to each other
                 for (let j = index + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const distSq = dx * dx + dy * dy;
 
-                    if (distance < CONNECTION_DISTANCE) {
+                    if (distSq < CONNECTION_DIST_SQ) {
+                        const distance = Math.sqrt(distSq);
                         ctx.beginPath();
                         ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - distance / CONNECTION_DISTANCE)})`;
                         ctx.lineWidth = 0.5;
@@ -153,11 +164,11 @@ export default function SpiderVerseBackground() {
                     }
                 }
 
-                // Connect to Mouse
                 const dx = p.x - mouseRef.current.x;
                 const dy = p.y - mouseRef.current.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < MOUSE_DISTANCE) {
+                const distSq = dx * dx + dy * dy;
+                if (distSq < MOUSE_DIST_SQ) {
+                    const dist = Math.sqrt(distSq);
                     ctx.beginPath();
                     ctx.strokeStyle = `rgba(0, 245, 255, ${0.5 * (1 - dist / MOUSE_DISTANCE)})`;
                     ctx.lineWidth = 1;
@@ -170,12 +181,49 @@ export default function SpiderVerseBackground() {
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        animate();
+        const startAnimation = () => {
+            if (animationFrameId === null && isVisible && !document.hidden) {
+                animate();
+            }
+        };
+
+        const stopAnimation = () => {
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    startAnimation();
+                } else {
+                    stopAnimation();
+                }
+            });
+        }, { threshold: 0.01 });
+
+        if (canvas) observer.observe(canvas);
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                stopAnimation();
+            } else if (isVisible) {
+                startAnimation();
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        startAnimation();
 
         return () => {
             window.removeEventListener("resize", resize);
             window.removeEventListener("mousemove", handleMouseMove);
-            cancelAnimationFrame(animationFrameId);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            if (observer && canvas) observer.unobserve(canvas);
+            stopAnimation();
         };
     }, []);
 

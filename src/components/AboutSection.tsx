@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 import MusicCard from "./MusicCard";
-import { cn, assetPath } from "@/lib/utils";
+import { assetPath } from "@/lib/utils";
 
 export default function AboutSection() {
     return (
@@ -65,24 +65,24 @@ export default function AboutSection() {
                     <div className="absolute bottom-0 right-0 w-20 h-20 bg-graffiti-yellow/10 blur-3xl rounded-full pointer-events-none" />
 
                     <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter mb-6 text-chromatic drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                        HEY, WHAT'S UP?
+                        HEY, WHAT&apos;S UP?
                     </h2>
 
                     <div className="space-y-6 text-lg text-spider-white/80 font-medium leading-relaxed font-sans">
                         <p>
-                            I'm <span className="text-spider-verse-cyan font-bold drop-shadow-[0_0_5px_rgba(0,255,255,0.6)]">Parth</span>. Just your average developer… until something needs to actually work well.
+                            I&apos;m <span className="text-spider-verse-cyan font-bold drop-shadow-[0_0_5px_rgba(0,255,255,0.6)]">Parth</span>. Just your average developer… until something needs to actually work well.
                         </p>
                         <p>
-                            I build web experiences that aren't just functional, but smooth, responsive, and designed with intent.
+                            I build web experiences that aren&apos;t just functional, but smooth, responsive, and designed with intent.
                         </p>
                         <p>
-                            Right now, I'm exploring different parts of development by building and shipping projects — figuring out where I can create the most impact.
+                            Right now, I&apos;m exploring different parts of development by building and shipping projects — figuring out where I can create the most impact.
                         </p>
                         <p>
-                            I'm driven by curiosity and a desire to solve problems with clean, efficient code. I'm always learning, always improving, and always ready for the next challenge.
+                            I&apos;m driven by curiosity and a desire to solve problems with clean, efficient code. I&apos;m always learning, always improving, and always ready for the next challenge.
                         </p>
                         <p>
-                            I don't chase trends. I focus on what works, what scales, and what feels right to use.
+                            I don&apos;t chase trends. I focus on what works, what scales, and what feels right to use.
                         </p>
 
                     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,21 @@ export default function ContactSection() {
     const [sending, setSending] = useState(false);
     const [yanking, setYanking] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
-    const [fogParticles, setFogParticles] = useState<{ left: string; width: string; height: string; delay: string; duration: string }[]>([]);
+
+    const fogParticles = Array.from({ length: 15 }).map((_, i) => {
+        const left = (Math.abs(Math.sin(i * 13.5)) * 100).toFixed(2);
+        const width = (Math.abs(Math.cos(i * 7.2)) * 100 + 50).toFixed(2);
+        const height = (Math.abs(Math.sin(i * 4.1)) * 100 + 50).toFixed(2);
+        const delay = (Math.abs(Math.cos(i * 9.3)) * 5).toFixed(2);
+        const duration = (Math.abs(Math.sin(i * 2.7)) * 4 + 4).toFixed(2);
+        return {
+            left: `${left}%`,
+            width: `${width}px`,
+            height: `${height}px`,
+            delay: `${delay}s`,
+            duration: `${duration}s`
+        };
+    });
 
     // Form State
     const [formData, setFormData] = useState({
@@ -21,20 +35,7 @@ export default function ContactSection() {
         contactNumber: ""
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
     const formRef = useRef<HTMLFormElement>(null);
-
-    useEffect(() => {
-        setFogParticles(
-            Array.from({ length: 15 }).map(() => ({
-                left: `${Math.random() * 100}%`,
-                width: `${Math.random() * 100 + 50}px`,
-                height: `${Math.random() * 100 + 50}px`,
-                delay: `${Math.random() * 5}s`,
-                duration: `${Math.random() * 4 + 4}s`
-            }))
-        );
-    }, []);
 
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
@@ -131,6 +132,7 @@ export default function ContactSection() {
                 {fogParticles.map((particle, i) => (
                     <div
                         key={i}
+                        suppressHydrationWarning
                         className="animate-fog absolute bottom-[-50px] bg-white/5 blur-xl rounded-full"
                         style={{
                             left: particle.left,
@@ -213,8 +215,9 @@ export default function ContactSection() {
                                         name="projectType"
                                         placeholder="DESCRIBE OBJECTIVE..."
                                         rows={4}
+                                        suppressHydrationWarning
                                         value={formData.projectType}
-                                        onChange={(e) => handleChange(e as any)}
+                                        onChange={handleChange}
                                         className={cn(
                                             "w-full bg-white/5 border border-white/10 rounded-sm py-4 px-4 text-spider-white font-bold tracking-widest placeholder:text-white/20 focus:outline-none transition-all duration-300 backdrop-blur-sm resize-none",
                                             "focus:border-spider-red focus:shadow-[0_0_15px_rgba(177,19,19,0.4)]",
@@ -228,6 +231,7 @@ export default function ContactSection() {
                                 <button
                                     type="submit"
                                     disabled={sending}
+                                    suppressHydrationWarning
                                     className="w-full py-4 mt-4 bg-spider-red hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-black tracking-[0.2em] uppercase transition-all duration-300 clip-path-polygon hover:shadow-[0_0_20px_rgba(220,38,38,0.6)] flex items-center justify-center gap-3 group/btn"
                                 >
                                     <span>{sending ? "ENCRYPTING..." : "Signal Spidey"}</span>
@@ -256,7 +260,7 @@ export default function ContactSection() {
                                 Message Delivered to HQ
                             </h3>
                             <p className="text-neon-cyan/80 font-mono text-xs">
-                                // ENCRYPTION: MAX LEVEL <br /> // STATUS: PENDING REVIEW
+                                {"// ENCRYPTION: MAX LEVEL"} <br /> {"// STATUS: PENDING REVIEW"}
                             </p>
                             <button
                                 onClick={() => { setSent(false); setYanking(false); setFormData({ name: "", email: "", projectType: "", contactNumber: "" }); }}
@@ -291,6 +295,7 @@ function InputField({ name, label, placeholder, value, onChange, error }: { name
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                suppressHydrationWarning
                 className={cn(
                     "w-full bg-white/5 border border-white/10 rounded-sm py-4 px-4 text-spider-white font-bold tracking-widest placeholder:text-white/20 focus:outline-none transition-all duration-300 backdrop-blur-sm",
                     "focus:border-spider-red focus:shadow-[0_0_15px_rgba(177,19,19,0.4)]",

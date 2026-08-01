@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useSyncExternalStore } from "react";
 
 export default function ParallaxBackground() {
     const { scrollY } = useScroll();
@@ -13,13 +13,20 @@ export default function ParallaxBackground() {
     // Layer A: Rooftops (0.5x speed - faster movement)
     const yRooftops = useTransform(scrollY, [0, 5000], [0, 2500]);
 
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+
     return (
-        <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+        <div suppressHydrationWarning className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
 
             {/* Layer B: Distant NYC Skyline (Slower) */}
             <motion.div
+                suppressHydrationWarning
                 className="absolute inset-0 w-full h-[120%] -top-[10%]"
-                style={{ y: ySkyline }}
+                style={{ y: mounted ? ySkyline : 0, willChange: "transform" }}
             >
                 <div className="absolute bottom-0 w-full h-1/2 flex items-end opacity-30 text-spider-blue/20">
                     {/* CSS Generated Skyline */}
@@ -38,8 +45,9 @@ export default function ParallaxBackground() {
 
             {/* Layer A: Rooftop Objects (Faster) */}
             <motion.div
+                suppressHydrationWarning
                 className="absolute inset-0 w-full h-[120%] -top-[5%]"
-                style={{ y: yRooftops }}
+                style={{ y: mounted ? yRooftops : 0, willChange: "transform" }}
             >
                 {/* Water Tank (Left) */}
                 <div className="absolute top-[40%] -left-10 w-64 h-64 opacity-10 text-spider-black">

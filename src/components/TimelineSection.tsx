@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useRef, useSyncExternalStore } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { GraduationCap, Trophy, Briefcase, Award } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 
 // Placeholder timeline data that the user will populate later
 const TIMELINE_DATA = [
@@ -27,6 +27,12 @@ export default function TimelineSection() {
 
     const webLineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
+
     return (
         <section ref={containerRef} className="relative w-full min-h-screen py-20 px-4 overflow-hidden">
             {/* Header */}
@@ -46,8 +52,9 @@ export default function TimelineSection() {
                 <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[2px] bg-stark-blue/20 -translate-x-1/2">
                     {/* Animated Fill Line */}
                     <motion.div 
+                        suppressHydrationWarning
                         className="absolute top-0 left-0 w-full bg-stark-cyan shadow-[0_0_15px_#00FFFF]"
-                        style={{ height: webLineHeight }}
+                        style={{ height: mounted ? webLineHeight : "0%" }}
                     />
                 </div>
 

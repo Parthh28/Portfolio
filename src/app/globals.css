@@ -45,6 +45,9 @@
   --font-mono: var(--font-geist-mono);
 
   --font-serif: var(--font-playfair);
+  --font-syncopate: var(--font-syncopate), sans-serif;
+  --font-chakra: var(--font-chakra), sans-serif;
+  --font-share: var(--font-share-mono), monospace;
 
   --color-newsprint: #E8E6E1;
 
@@ -54,6 +57,18 @@
 
 .font-serif {
   font-family: var(--font-serif), Georgia, serif;
+}
+
+.font-syncopate {
+  font-family: var(--font-syncopate), sans-serif;
+}
+
+.font-chakra {
+  font-family: var(--font-chakra), sans-serif;
+}
+
+.font-share {
+  font-family: var(--font-share), monospace;
 }
 
 /* Half-tone Pattern */
@@ -76,27 +91,7 @@ body {
   position: relative;
 }
 
-/* Cinematic Overlays */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-  /* Vignette */
-  pointer-events: none;
-  z-index: 998;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: 999;
-  mix-blend-mode: overlay;
-}
+/* Cinematic Overlays handled by CinematicOverlay component for optimal GPU performance */
 
 /* Suit Weave (Hex Mesh) */
 .bg-hex-mesh {
