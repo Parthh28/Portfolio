@@ -223,10 +223,10 @@ export default function InterestsSection() {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN (7 Cols): About Me / Hobbies + Favorite Songs Dock */}
-                    <div className="lg:col-span-7 flex flex-col justify-between gap-10">
+                    {/* RIGHT COLUMN (7 Cols): About Me / Hobbies */}
+                    <div className="lg:col-span-7 flex flex-col justify-center">
                         
-                        {/* TOP SECTION: Daily Life & Routine */}
+                        {/* Daily Life & Routine */}
                         <div className="p-8 rounded-2xl bg-[#0a0a0a] border-2 border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.9)] relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-stark-cyan/10 rounded-full blur-3xl pointer-events-none" />
                             
@@ -274,108 +274,110 @@ export default function InterestsSection() {
                             </div>
                         </div>
 
-                        {/* BOTTOM SECTION: Favorite Songs / Soundtrack Dock */}
-                        <div className="p-8 rounded-2xl bg-[#0a0a0a] border-2 border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.9)] relative overflow-hidden">
-                            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="w-8 h-8 rounded-lg bg-stark-cyan/10 border border-stark-cyan/30 flex items-center justify-center">
-                                        <Music className="w-4 h-4 text-stark-cyan" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-sm text-white font-syncopate uppercase tracking-wider">
-                                            {"SOUNDTRACK // FAVORITE TRACKS"}
-                                        </h4>
-                                        <span className="text-[10px] font-share text-white/50 block mt-0.5">
-                                            THE FREQUENCIES BEHIND THE CODE
-                                        </span>
-                                    </div>
-                                </div>
+                    </div>
 
-                                {/* Equalizer Visualizer */}
-                                <div className="flex items-end gap-1 h-5">
-                                    {[40, 90, 60, 100, 50, 80].map((h, i) => (
-                                        <div
-                                            key={i}
-                                            className={cn(
-                                                "w-1 rounded-full transition-all duration-300",
-                                                isPlaying ? "bg-stark-cyan animate-pulse" : "bg-white/20"
-                                            )}
-                                            style={{
-                                                height: isPlaying ? `${h}%` : "30%",
-                                                animationDelay: `${i * 120}ms`
-                                            }}
-                                        />
-                                    ))}
-                                </div>
+                </div>
+            </div>
+
+            {/* FULL-WIDTH SOUNDTRACK SECTION */}
+            <div className="w-full bg-[#0a0a0a] border-t-2 border-white/15 relative overflow-hidden mt-20">
+                <div className="w-full px-6 py-12 md:py-16">
+                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between mb-10 pb-6 border-b border-white/10 gap-6">
+                        <div className="flex items-center gap-5">
+                            <div className="w-12 h-12 rounded-lg bg-stark-cyan/10 border border-stark-cyan/30 flex items-center justify-center">
+                                <Music className="w-6 h-6 text-stark-cyan" />
                             </div>
-
-                            {/* Songs Playlist List */}
-                            <div className="flex flex-col gap-2.5">
-                                {FAVORITE_SONGS.map((song) => {
-                                    const isSelected = song.id === currentSongId;
-                                    return (
-                                        <div
-                                            key={song.id}
-                                            onClick={() => setCurrentSongId(song.id)}
-                                            className={cn(
-                                                "flex items-center justify-between p-3.5 rounded-xl border transition-all cursor-pointer group",
-                                                isSelected
-                                                    ? "bg-stark-cyan/10 border-stark-cyan/50 shadow-[0_0_15px_rgba(0,245,255,0.15)]"
-                                                    : "bg-[#141414] border-white/10 hover:border-white/25 hover:bg-[#1a1a1a]"
-                                            )}
-                                        >
-                                            <div className="flex items-center gap-3.5">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (isSelected) {
-                                                            setIsPlaying(!isPlaying);
-                                                        } else {
-                                                            setCurrentSongId(song.id);
-                                                            setIsPlaying(true);
-                                                        }
-                                                    }}
-                                                    suppressHydrationWarning
-                                                    className={cn(
-                                                        "w-9 h-9 rounded-full flex items-center justify-center transition-colors",
-                                                        isSelected
-                                                            ? "bg-stark-cyan text-spider-black shadow-[0_0_10px_#00F5FF]"
-                                                            : "bg-white/10 text-white group-hover:bg-white/20"
-                                                    )}
-                                                >
-                                                    {isSelected && isPlaying ? (
-                                                        <Pause className="w-4 h-4 fill-current" />
-                                                    ) : (
-                                                        <Play className="w-4 h-4 fill-current ml-0.5" />
-                                                    )}
-                                                </button>
-
-                                                <div>
-                                                    <span className={cn(
-                                                        "font-bold text-sm block font-chakra transition-colors",
-                                                        isSelected ? "text-stark-cyan" : "text-white"
-                                                    )}>
-                                                        {song.title}
-                                                    </span>
-                                                    <span className="text-xs text-white/50 block font-share">
-                                                        {song.artist} • {song.genre}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-xs font-share text-white/40">
-                                                    {song.duration}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                            <div>
+                                <h4 className="font-bold text-xl md:text-2xl text-white font-syncopate uppercase tracking-wider">
+                                    {"SOUNDTRACK // FAVORITE TRACKS"}
+                                </h4>
+                                <span className="text-sm font-share text-white/50 block mt-1">
+                                    THE FREQUENCIES BEHIND THE CODE
+                                </span>
                             </div>
                         </div>
 
+                        {/* Equalizer Visualizer */}
+                        <div className="flex items-end gap-1.5 h-8">
+                            {[40, 90, 60, 100, 50, 80, 70, 90].map((h, i) => (
+                                <div
+                                    key={i}
+                                    className={cn(
+                                        "w-2 rounded-full transition-all duration-300",
+                                        isPlaying ? "bg-stark-cyan animate-pulse" : "bg-white/20"
+                                    )}
+                                    style={{
+                                        height: isPlaying ? `${h}%` : "30%",
+                                        animationDelay: `${i * 120}ms`
+                                    }}
+                                />
+                            ))}
+                        </div>
                     </div>
 
+                    {/* Songs Playlist List (Grid layout for full width) */}
+                    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {FAVORITE_SONGS.map((song) => {
+                            const isSelected = song.id === currentSongId;
+                            return (
+                                <div
+                                    key={song.id}
+                                    onClick={() => setCurrentSongId(song.id)}
+                                    className={cn(
+                                        "flex items-center justify-between p-5 rounded-xl border transition-all cursor-pointer group",
+                                        isSelected
+                                            ? "bg-stark-cyan/10 border-stark-cyan/50 shadow-[0_0_20px_rgba(0,245,255,0.15)]"
+                                            : "bg-[#141414] border-white/10 hover:border-white/25 hover:bg-[#1a1a1a]"
+                                    )}
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (isSelected) {
+                                                    setIsPlaying(!isPlaying);
+                                                } else {
+                                                    setCurrentSongId(song.id);
+                                                    setIsPlaying(true);
+                                                }
+                                            }}
+                                            suppressHydrationWarning
+                                            className={cn(
+                                                "w-12 h-12 rounded-full flex items-center justify-center transition-colors",
+                                                isSelected
+                                                    ? "bg-stark-cyan text-spider-black shadow-[0_0_15px_#00F5FF]"
+                                                    : "bg-white/10 text-white group-hover:bg-white/20"
+                                            )}
+                                        >
+                                            {isSelected && isPlaying ? (
+                                                <Pause className="w-5 h-5 fill-current" />
+                                            ) : (
+                                                <Play className="w-5 h-5 fill-current ml-1" />
+                                            )}
+                                        </button>
+
+                                        <div>
+                                            <span className={cn(
+                                                "font-bold text-base md:text-lg block font-chakra transition-colors",
+                                                isSelected ? "text-stark-cyan" : "text-white"
+                                            )}>
+                                                {song.title}
+                                            </span>
+                                            <span className="text-sm text-white/50 block font-share mt-0.5">
+                                                {song.artist} • {song.genre}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center">
+                                        <span className="text-sm font-share text-white/40">
+                                            {song.duration}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </section>
