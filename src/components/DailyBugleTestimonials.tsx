@@ -105,7 +105,7 @@ export default function DailyBugleTestimonials() {
                                     {/* Story Text */}
                                     <div className="col-span-12 md:col-span-7 flex flex-col justify-between">
                                         <p className="font-serif text-lg md:text-xl font-bold leading-tight border-l-4 border-black pl-4 mb-4">
-                                            "{t.quote}"
+                                            &quot;{t.quote}&quot;
                                         </p>
                                         <div className="font-sans font-black uppercase text-sm text-right">
                                             — {t.author}<br />

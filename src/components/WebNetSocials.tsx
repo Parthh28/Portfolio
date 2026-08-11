@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform, useVelocity } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, useVelocity, MotionValue } from "framer-motion";
 import React, { useRef, useSyncExternalStore } from "react";
 import { Github, Linkedin, Mail, X, Instagram } from "lucide-react";
 
@@ -174,7 +174,7 @@ export default function WebNetSocials() {
     );
 }
 
-function WebNode({ social, index, sway }: { social: typeof SOCIALS[0], index: number, sway: any }) {
+function WebNode({ social, index, sway }: { social: typeof SOCIALS[0], index: number, sway: MotionValue<number> | number }) {
     // Randomize thread length
     const threadLength = 60 + (index % 2) * 50;
     const isInsta = social.label === "Instagram";

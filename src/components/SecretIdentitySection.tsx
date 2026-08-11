@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import { Headphones, Play, Pause, ExternalLink } from "lucide-react";
 
@@ -54,8 +54,8 @@ const NewspaperStack = () => (
 
             <div className="flex gap-4 text-[10px] text-justify font-serif leading-relaxed h-full">
                 <div className="flex-1">
-                    <p className="indent-4 mb-2 first-letter:text-3xl first-letter:font-bold first-letter:float-left first-letter:mr-1">The elusive web-slinger was seen again swinging through Queens late last night. While some citizens cheer, authorities remain deeply suspicious of this vigilante's true motives.</p>
-                    <p className="indent-4">"He left a note on the stolen car," says local bodega owner Mr. Delmar. "Who does that? A hero or someone mocking the police?"</p>
+                    <p className="indent-4 mb-2 first-letter:text-3xl first-letter:font-bold first-letter:float-left first-letter:mr-1">The elusive web-slinger was seen again swinging through Queens late last night. While some citizens cheer, authorities remain deeply suspicious of this vigilante&apos;s true motives.</p>
+                    <p className="indent-4">&quot;He left a note on the stolen car,&quot; says local bodega owner Mr. Delmar. &quot;Who does that? A hero or someone mocking the police?&quot;</p>
                 </div>
                 <div className="flex-1 pl-4 border-l border-black/20">
                     <div className="w-full h-28 bg-zinc-800 mb-2 overflow-hidden relative grayscale contrast-125 border-4 border-white shadow-sm">
@@ -86,10 +86,13 @@ const NewspaperStack = () => (
 const HeadphonesPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [mounted, setMounted] = useState(false);
+    const mounted = useSyncExternalStore(
+        () => () => {},
+        () => true,
+        () => false
+    );
 
     useEffect(() => {
-        setMounted(true);
         audioRef.current = new Audio("/Portfolio/sunflower.mp3");
         audioRef.current.loop = true;
         audioRef.current.volume = 0.4;
@@ -143,7 +146,7 @@ const HeadphonesPlayer = () => {
                             key={i}
                             className="w-1 bg-neon-cyan opacity-40 rounded-t"
                             animate={{ height: ["20%", "100%", "40%"] }}
-                            transition={{ duration: 0.5 + Math.random(), repeat: Infinity, repeatType: "reverse" }}
+                            transition={{ duration: 0.5 + (i * 0.2), repeat: Infinity, repeatType: "reverse" }}
                         />
                     ))}
                 </div>

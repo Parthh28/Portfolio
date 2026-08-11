@@ -10,7 +10,7 @@ import { useSpring, useMotionValue } from "framer-motion";
  * @param ref - Reference to the element to detect proximity to
  * @param threshold - Distance in pixels to trigger the effect
  */
-export const useSpiderSense = <T extends HTMLElement = HTMLElement>(ref: RefObject<T> | any, threshold = 100) => {
+export const useSpiderSense = <T extends HTMLElement = HTMLElement>(ref: RefObject<T | null>, threshold = 100) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const [isNear, setIsNear] = useState(false);
